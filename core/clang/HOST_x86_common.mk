@@ -19,9 +19,9 @@ ifeq ($(PULSE),true)
 CLANG_CONFIG_x86_LINUX_HOST_EXTRA_CPPFLAGS := \
   --gcc-toolchain=$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG) \
   --sysroot=$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/sysroot \
-  -isystem $($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/x86_64-linux/include/c++/4.6 \
-  -isystem $($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/x86_64-linux/include/c++/4.6/x86_64-linux \
-  -isystem $($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/x86_64-linux/include/c++/4.6/backward \
+  -isystem $($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/x86_64-linux/include/c++/4.8 \
+  -isystem $($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/x86_64-linux/include/c++/4.8/x86_64-linux \
+  -isystem $($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG)/x86_64-linux/include/c++/4.8/backward \
   -no-integrated-as
 else
 CLANG_CONFIG_x86_LINUX_HOST_EXTRA_CPPFLAGS := \
