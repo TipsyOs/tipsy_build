@@ -190,7 +190,7 @@ FIND_LEAVES_EXCLUDES := $(addprefix --prune=, $(OUT_DIR) $(SCAN_EXCLUDE_DIRS) .r
 $(call project-set-path-variant,recovery,RECOVERY_VARIANT,bootable/recovery)
 
 -include vendor/extra/BoardConfigExtra.mk
--include vendor/tipsy/config/BoardConfigSLIM.mk
+-include vendor/tipsy/config/BoardConfigTIPSY.mk
 
 # The build system exposes several variables for where to find the kernel
 # headers:
