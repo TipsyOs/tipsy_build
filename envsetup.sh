@@ -20,6 +20,7 @@ Invoke ". build/envsetup.sh" from your shell to add the following functions to y
 - sepgrep:   Greps on all local sepolicy files.
 - sgrep:     Greps on all local source files.
 - godir:     Go to the directory containing a file.
+- clog:      Generate the changelog, vendor/tipsy/tools/Changelog_Tipsy.txt
 
 EOF
 "tipsyremote: Add a git remote for matching TIPSY repository"
@@ -1717,5 +1718,27 @@ check_bash_version && {
 }
 
 export ANDROID_BUILD_TOP=$(gettop)
+
+function clog()
+{
+    txtrst=$(tput sgr0)             #  Reset
+    bldgrn=${txtbld}$(tput setaf 2) #  green
+
+    clog_cmd=vendor/tipsy/tools/changelog_tipsy
+    echo ""
+    echo ${bldgrn}"Executing $clog_cmd"${txtrst}
+
+    export Changelog=Changelog_Tipsy.txt
+
+    eval "$clog_cmd"
+    sed -i 's/project/   */g' $Changelog
+
+    cp $Changelog vendor/tipsy/
+    rm $Changelog
+
+    echo ${bldgrn}"Changelog generated at vendor/tipsy/$Changelog"${txtrst}
+
+    return;
+}
 
 . vendor/tipsy/build/envsetup.sh
