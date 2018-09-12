@@ -340,7 +340,7 @@ endif
 	$(hide) TARGET_BUILD_TYPE="$(TARGET_BUILD_VARIANT)" \
 			TARGET_BUILD_FLAVOR="$(TARGET_BUILD_FLAVOR)" \
 			TARGET_DEVICE="$(TARGET_DEVICE)" \
-			GZOSP_DEVICE="$(TARGET_DEVICE)" \
+			TIPSY_DEVICE="$(TARGET_DEVICE)" \
 			PRODUCT_NAME="$(TARGET_PRODUCT)" \
 			PRODUCT_BRAND="$(PRODUCT_BRAND)" \
 			PRODUCT_DEFAULT_LOCALE="$(call get-default-product-locale,$(PRODUCT_LOCALES))" \
@@ -3185,7 +3185,7 @@ endif
 ifeq ($(WITH_GMS),true)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
 else
-ifneq ($(GZOSP_BUILD),)
+ifneq ($(TIPSY_BUILD),)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := true
 else
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
@@ -3205,25 +3205,41 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) \
 	   $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 
-GZOSP_TARGET_PACKAGE := $(PRODUCT_OUT)/$(GZOSP_VERSION).zip
+TIPSY_TARGET_PACKAGE := $(PRODUCT_OUT)/$(TIPSY_VERSION).zip
 
-.PHONY: otapackage gzosp
+.PHONY: otapackage tipsy
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
-gzosp: otapackage
-	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(GZOSP_TARGET_PACKAGE)
-	$(hide) $(MD5SUM) $(GZOSP_TARGET_PACKAGE) > $(GZOSP_TARGET_PACKAGE).md5sum
-	@echo -e ${CL_RED}""${CL_RED}
-	@echo -e ${CL_RED}"    ▄██████▄   ▄███████▄   ▄██████▄     ▄████████    ▄███████▄ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    ███ ██▀     ▄██ ███    ███   ███    ███   ███    ███ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    █▀        ▄███▀ ███    ███   ███    █▀    ███    ███ "${CL_RED}
-	@echo -e ${CL_RED}"  ▄███         ▀█▀▄███▀▄▄ ███    ███   ███          ███    ███ "${CL_RED}
-	@echo -e ${CL_RED}" ▀▀███ ████▄    ▄███▀   ▀ ███    ███ ▀███████████ ▀█████████▀ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    ███ ▄███▀       ███    ███          ███   ███ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    ███ ███▄     ▄█ ███    ███    ▄█    ███   ███ "${CL_RED}
-	@echo -e ${CL_RED}"   ████████▀   ▀████████▀  ▀██████▀   ▄████████▀   ▄████▀ "${CL_RED}
-	@echo -e ${CL_RED}"                           A Ground Zero Roms "${CL_RED}
-	@echo -e ${CL_RED}"                                Project      "${CL_RED}
-	@echo -e "Package complete: $(GZOSP_TARGET_PACKAGE)"
+tipsy: otapackage
+	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(TIPSY_TARGET_PACKAGE)
+	$(hide) $(MD5SUM) $(TIPSY_TARGET_PACKAGE) > $(TIPSY_TARGET_PACKAGE).md5sum
+	@echo -e ${CL_YLW}""${CL_YLW}
+	@echo -e ${CL_YLW}"                     .sssssssss."${CL_YLW}
+	@echo -e ${CL_YLW}"                .sssssssssssssssssss"${CL_YLW}
+	@echo -e ${CL_YLW}"              ssssssssssssssssssssssss"${CL_YLW}
+	@echo -e ${CL_YLW}"           ssssssssssssssssssssssssssss"${CL_YLW}
+	@echo -e ${CL_YLW}"            @@sssssssssssssssssssssss@ss"${CL_YLW}
+	@echo -e ${CL_YLW}"            |s@@@@sssssssssssssss@@@@s|s"${CL_YLW}
+	@echo -e ${CL_YLW}"     _______|sssss@@@@@sssss@@@@@sssss|s"${CL_YLW}
+	@echo -e ${CL_YLW}"    /         sssssssss@sssss@sssssssss|s"${CL_YLW}
+	@echo -e ${CL_YLW}"   /  .------+.ssssssss@sssss@ssssssss.|"${CL_YLW}
+	@echo -e ${CL_YLW}"  /  /       |...sssssss@sss@sssssss...|"${CL_YLW}
+	@echo -e ${CL_YLW}" |  |        |.......sss@sss@ssss......|"${CL_YLW}
+	@echo -e ${CL_YLW}" |  |        |..........s@ss@sss.......|"${CL_YLW}
+	@echo -e ${CL_YLW}" |  |        |...........@ss@..........|"${CL_YLW}
+	@echo -e ${CL_YLW}"  \  \       |............ss@..........|"${CL_YLW}
+	@echo -e ${CL_YLW}"   \  '------+...........ss@...........|"${CL_YLW}
+	@echo -e ${CL_YLW}"    \________ .........................|"${CL_YLW}
+	@echo -e ${CL_YLW}"             |.........................|"${CL_YLW}
+	@echo -e ${CL_YLW}"            /...........................\ "${CL_YLW}
+	@echo -e ${CL_YLW}"           |.............................|"${CL_YLW}
+	@echo -e ${CL_YLW}"              |.......................|"${CL_YLW}
+	@echo -e ${CL_YLW}"                  |...............|"${CL_YLW}
+	@echo -e ${CL_YLW}"                    ____________"${CL_YLW}
+	@echo -e ${CL_YLW}""${CL_YLW}${CL_RST}
+	@echo -e ${CL_GRN}"             Congratz, u just got Tipsy!"${CL_GRN}
+	@echo -e ${CL_GRN}"                      G   Z   R"${CL_GRN}
+	@echo -e ${CL_GRN}""${CL_GRN}${CL_RST}
+	@echo -e ${CL_CYN}"Package Complete: $(TIPSY_TARGET_PACKAGE)"${CL_CYN}${CL_RST}
 
 endif    # build_ota_package
 
