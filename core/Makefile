@@ -446,7 +446,7 @@ endif
 	$(hide) TARGET_BUILD_TYPE="$(TARGET_BUILD_VARIANT)" \
 	        TARGET_BUILD_FLAVOR="$(TARGET_BUILD_FLAVOR)" \
 	        TARGET_DEVICE="$(TARGET_DEVICE)" \
-	        GZOSP_DEVICE="$(TARGET_DEVICE)" \
+	        TIPSY_DEVICE="$(TARGET_DEVICE)" \
 	        PRODUCT_DEFAULT_LOCALE="$(call get-default-product-locale,$(PRODUCT_LOCALES))" \
 	        PRODUCT_DEFAULT_WIFI_CHANNELS="$(PRODUCT_DEFAULT_WIFI_CHANNELS)" \
 	        PRIVATE_BUILD_DESC="$(PRIVATE_BUILD_DESC)" \
@@ -5037,24 +5037,22 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(OTA_FROM_TARGET_
 	@echo "Package OTA: $@"
 	$(call build-ota-package-target,$@,-k $(KEY_CERT_PAIR) --output_metadata_path $(INTERNAL_OTA_METADATA))
 
-GZOSP_TARGET_PACKAGE := $(PRODUCT_OUT)/$(GZOSP_VERSION).zip
+TIPSY_TARGET_PACKAGE := $(PRODUCT_OUT)/$(TIPSY_VERSION).zip
 
-.PHONY: otapackage gzosp
+.PHONY: otapackage tipsy
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
-gzosp: otapackage
-	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(GZOSP_TARGET_PACKAGE)
-	@echo -e ${CL_RED}""${CL_RED}
-	@echo -e ${CL_RED}"    ▄██████▄   ▄███████▄   ▄██████▄     ▄████████    ▄███████▄ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    ███ ██▀     ▄██ ███    ███   ███    ███   ███    ███ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    █▀        ▄███▀ ███    ███   ███    █▀    ███    ███ "${CL_RED}
-	@echo -e ${CL_RED}"  ▄███         ▀█▀▄███▀▄▄ ███    ███   ███          ███    ███ "${CL_RED}
-	@echo -e ${CL_RED}" ▀▀███ ████▄    ▄███▀   ▀ ███    ███ ▀███████████ ▀█████████▀ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    ███ ▄███▀       ███    ███          ███   ███ "${CL_RED}
-	@echo -e ${CL_RED}"   ███    ███ ███▄     ▄█ ███    ███    ▄█    ███   ███ "${CL_RED}
-	@echo -e ${CL_RED}"   ████████▀   ▀████████▀  ▀██████▀   ▄████████▀   ▄████▀ "${CL_RED}
-	@echo -e ${CL_RED}"                           A Ground Zero Roms "${CL_RED}
-	@echo -e ${CL_RED}"                                Project      "${CL_RED}
-	@echo -e "Package complete: $(GZOSP_TARGET_PACKAGE)"
+tipsy: otapackage
+	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(TIPSY_TARGET_PACKAGE)
+	@echo -e ${CL_YLW}""${CL_YLW}
+	@echo -e ${CL_YLW}"████████╗██╗██████╗ ███████╗██╗   ██╗ ██████╗ ███████╗"${CL_YLW}
+	@echo -e ${CL_YLW}"╚══██╔══╝██║██╔══██╗██╔════╝╚██╗ ██╔╝██╔═══██╗██╔════╝"${CL_YLW}
+	@echo -e ${CL_YLW}"   ██║   ██║██████╔╝███████╗ ╚████╔╝ ██║   ██║███████╗"${CL_YLW}
+	@echo -e ${CL_YLW}"   ██║   ██║██╔═══╝ ╚════██║  ╚██╔╝  ██║   ██║╚════██║"${CL_YLW}
+	@echo -e ${CL_YLW}"   ██║   ██║██║     ███████║   ██║   ╚██████╔╝███████║"${CL_YLW}
+	@echo -e ${CL_YLW}"   ╚═╝   ╚═╝╚═╝     ╚══════╝   ╚═╝    ╚═════╝ ╚══════╝"${CL_YLW}
+	@echo -e ${CL_YLW}"                  A Ground Zero Roms "${CL_YLW}
+	@echo -e ${CL_YLW}"                        Project      "${CL_YLW}
+	@echo -e "Package complete: $(TIPSY_TARGET_PACKAGE)"
 
 ifeq ($(BOARD_BUILD_RETROFIT_DYNAMIC_PARTITIONS_OTA_PACKAGE),true)
 name := $(TARGET_PRODUCT)

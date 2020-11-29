@@ -38,7 +38,7 @@ Invoke ". build/envsetup.sh" from your shell to add the following functions to y
 
 EOF
 
-    __print_gzosp_functions_help
+    __print_tipsy_functions_help
 
 cat <<EOF
 
@@ -51,7 +51,7 @@ EOF
     local T=$(gettop)
     local A=""
     local i
-    for i in `cat $T/build/envsetup.sh $T/vendor/gzosp/build/envsetup.sh | sed -n "/^[[:blank:]]*function /s/function \([a-z_]*\).*/\1/p" | sort | uniq`; do
+    for i in `cat $T/build/envsetup.sh $T/vendor/tipsy/build/envsetup.sh | sed -n "/^[[:blank:]]*function /s/function \([a-z_]*\).*/\1/p" | sort | uniq`; do
       A="$A $i"
     done
     echo $A
@@ -62,8 +62,8 @@ function build_build_var_cache()
 {
     local T=$(gettop)
     # Grep out the variable names from the script.
-    cached_vars=(`cat $T/build/envsetup.sh $T/vendor/gzosp/build/envsetup.sh | tr '()' '  ' | awk '{for(i=1;i<=NF;i++) if($i~/get_build_var/) print $(i+1)}' | sort -u | tr '\n' ' '`)
-    cached_abs_vars=(`cat $T/build/envsetup.sh $T/vendor/gzosp/build/envsetup.sh | tr '()' '  ' | awk '{for(i=1;i<=NF;i++) if($i~/get_abs_build_var/) print $(i+1)}' | sort -u | tr '\n' ' '`)
+    cached_vars=(`cat $T/build/envsetup.sh $T/vendor/tipsy/build/envsetup.sh | tr '()' '  ' | awk '{for(i=1;i<=NF;i++) if($i~/get_build_var/) print $(i+1)}' | sort -u | tr '\n' ' '`)
+    cached_abs_vars=(`cat $T/build/envsetup.sh $T/vendor/tipsy/build/envsetup.sh | tr '()' '  ' | awk '{for(i=1;i<=NF;i++) if($i~/get_abs_build_var/) print $(i+1)}' | sort -u | tr '\n' ' '`)
     # Call the build system to dump the "<val>=<value>" pairs as a shell script.
     build_dicts_script=`\builtin cd $T; build/soong/soong_ui.bash --dumpvars-mode \
                         --vars="${cached_vars[*]}" \
@@ -145,12 +145,12 @@ function check_product()
         echo "Couldn't locate the top of the tree.  Try setting TOP." >&2
         return
     fi
-    if (echo -n $1 | grep -q -e "^gzosp_") ; then
-        GZOSP_BUILD=$(echo -n $1 | sed -e 's/^gzosp_//g')
+    if (echo -n $1 | grep -q -e "^tipsy_") ; then
+        TIPSY_BUILD=$(echo -n $1 | sed -e 's/^tipsy_//g')
     else
-        GZOSP_BUILD=
+        TIPSY_BUILD=
     fi
-    export GZOSP_BUILD
+    export TIPSY_BUILD
 
         TARGET_PRODUCT=$1 \
         TARGET_BUILD_VARIANT= \
@@ -595,18 +595,15 @@ function print_lunch_menu()
     echo
 
     echo ""
-    tput setaf 1;
+    tput setaf 3;
     tput bold;
-    echo "  ▄████ ▒███████▒ ▒█████    ██████  ██▓███  "
-    echo " ██▒ ▀█▒▒ ▒ ▒ ▄▀░▒██▒  ██▒▒██    ▒ ▓██░  ██▒"
-    echo "▒██░▄▄▄░░ ▒ ▄▀▒░ ▒██░  ██▒░ ▓██▄   ▓██░ ██▓▒"
-    echo "░▓█  ██▓  ▄▀▒   ░▒██   ██░  ▒   ██▒▒██▄█▓▒ ▒"
-    echo "░▒▓███▀▒▒███████▒░ ████▓▒░▒██████▒▒▒██▒ ░  ░"
-    echo " ░▒   ▒ ░▒▒ ▓░▒░▒░ ▒░▒░▒░ ▒ ▒▓▒ ▒ ░▒▓▒░ ░  ░"
-    echo "  ░   ░ ░░▒ ▒ ░ ▒  ░ ▒ ▒░ ░ ░▒  ░ ░░▒ ░     "
-    echo "░ ░   ░ ░ ░ ░ ░ ░░ ░ ░ ▒  ░  ░  ░  ░░       "
-    echo "      ░   ░ ░        ░ ░        ░           "
-    echo "        ░                                   "
+    echo " ████████╗██╗██████╗ ███████╗██╗   ██╗ ██████╗ ███████╗ "
+    echo " ╚══██╔══╝██║██╔══██╗██╔════╝╚██╗ ██╔╝██╔═══██╗██╔════╝ "
+    echo "    ██║   ██║██████╔╝███████╗ ╚████╔╝ ██║   ██║███████╗ "
+    echo "    ██║   ██║██╔═══╝ ╚════██║  ╚██╔╝  ██║   ██║╚════██║ "
+    echo "    ██║   ██║██║     ███████║   ██║   ╚██████╔╝███████║ "
+    echo "    ╚═╝   ╚═╝╚═╝     ╚══════╝   ╚═╝    ╚═════╝ ╚══════╝ "
+    echo "                                                        "
     tput sgr0;
     echo ""
     echo "                      Welcome to the device menu                      "
@@ -616,7 +613,7 @@ function print_lunch_menu()
     tput sgr0;
     echo ""
 
-    if [ "z${GZOSP_DEVICES_ONLY}" != "z" ]; then
+    if [ "z${TIPSY_DEVICES_ONLY}" != "z" ]; then
        echo "Breakfast menu... pick a combo:"
     else
        echo "Lunch menu... pick a combo:"
@@ -630,7 +627,7 @@ function print_lunch_menu()
         i=$(($i+1))
     done | column
 
-    if [ "z${GZOSP_DEVICES_ONLY}" != "z" ]; then
+    if [ "z${TIPSY_DEVICES_ONLY}" != "z" ]; then
        echo " "
        echo "... and don't forget the bacon!"
     fi
@@ -642,7 +639,7 @@ function brunch()
 {
     breakfast $*
     if [ $? -eq 0 ]; then
-        mka gzosp
+        mka tipsy
     else
         echo "No such item in brunch menu. Try 'breakfast'"
         return 1
@@ -653,10 +650,10 @@ function brunch()
 function breakfast()
 {
     target=$1
-    GZOSP_DEVICES_ONLY="true"
+    TIPSY_DEVICES_ONLY="true"
     unset LUNCH_MENU_CHOICES
     add_lunch_combo full-eng
-    for f in `/bin/ls vendor/gzosp/vendorsetup.sh 2> /dev/null`
+    for f in `/bin/ls vendor/tipsy/vendorsetup.sh 2> /dev/null`
         do
             echo "including $f"
             . $f
@@ -672,7 +669,7 @@ function breakfast()
             # A buildtype was specified, assume a full device name
             lunch $target
         else
-            lunch gzosp_$target-userdebug
+            lunch tipsy_$target-userdebug
         fi
     fi
     return $?
@@ -737,16 +734,16 @@ function lunch()
     check_product $product
     if [ $? -ne 0 ]
     then
-        # if we can't find a product, try to grab it off the GZOSP GitHub
+        # if we can't find a product, try to grab it off the tipsy GitHub
         T=$(gettop)
         cd $T > /dev/null
-        vendor/gzosp/build/tools/roomservice.py $product
+        vendor/tipsy/build/tools/roomservice.py $product
         cd - > /dev/null
         check_product $product
     else
         T=$(gettop)
         cd $T > /dev/null
-        vendor/gzosp/build/tools/roomservice.py $product true
+        vendor/tipsy/build/tools/roomservice.py $product true
         cd - > /dev/null
     fi
 
@@ -1525,7 +1522,7 @@ function cmka() {
     if [ ! -z "$1" ]; then
         for i in "$@"; do
             case $i in
-                bacon|gzosp|otapackage|systemimage)
+                bacon|tipsy|otapackage|systemimage)
                     mka installclean
                     mka $i
                     ;;
@@ -1543,14 +1540,14 @@ function cmka() {
 
 function repopick() {
     T=$(gettop)
-    $T/vendor/gzosp/build/tools/repopick.py $@
+    $T/vendor/tipsy/build/tools/repopick.py $@
 }
 
 function fixup_common_out_dir() {
     common_out_dir=$(get_build_var OUT_DIR)/target/common
     target_device=$(get_build_var TARGET_DEVICE)
     common_target_out=common-${target_device}
-    if [ ! -z $GZOSP_FIXUP_COMMON_OUT ]; then
+    if [ ! -z $TIPSY_FIXUP_COMMON_OUT ]; then
         if [ -d ${common_out_dir} ] && [ ! -L ${common_out_dir} ]; then
             mv ${common_out_dir} ${common_out_dir}-${target_device}
             ln -s ${common_target_out} ${common_out_dir}
@@ -1777,4 +1774,4 @@ fi
 
 export ANDROID_BUILD_TOP=$(gettop)
 
-. $ANDROID_BUILD_TOP/vendor/gzosp/build/envsetup.sh
+. $ANDROID_BUILD_TOP/vendor/tipsy/build/envsetup.sh
